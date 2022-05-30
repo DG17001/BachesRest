@@ -7,7 +7,6 @@
     <packaging>war</packaging>
     <name>Baches-1.0-SNAPSHOT</name>
     <properties>
-        <sonar.sources>src/main/java,src/main/webapp</sonar.sources>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
