@@ -1,4 +1,4 @@
-/*
+/*  
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -47,7 +47,7 @@ public class EstadoResource {
     
     @GET
     @Path("findByName/{name}")
-    public Response findNByName(@PathParam("name") String nombre){
+    public Response findByName(@PathParam("name") String nombre){
         List<Estado> lista;
         lista=toBean.findByName(nombre);
         return Response.ok(lista).build();
@@ -76,7 +76,7 @@ public class EstadoResource {
         return String.valueOf(toBean.contar());
     }
     
-    @POST
+    @POST   
     @Path("crear/{nombre}")
     @Consumes({MediaType.TEXT_PLAIN})
     @Produces({MediaType.APPLICATION_JSON})

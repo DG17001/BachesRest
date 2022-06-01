@@ -55,7 +55,7 @@ public class ObjetoResource {
     
     @GET
     @Path("findByName/{name}")
-    public Response findNByName(@PathParam("name") String nombre){
+    public Response findByName(@PathParam("name") String nombre){
         List<Objeto> lista;
         lista=toBean.findByName(nombre);
         return Response.ok(lista).build();
