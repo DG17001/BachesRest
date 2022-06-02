@@ -18,7 +18,7 @@ pipeline {
 		stage('Building Image') {
 			steps {
 				withCredentials([string(credentialsId: 'dockerhub_id', variable: 'dockerhub_id')]) {
-					sh echo "$dockerhub_id" | docker login --username wizard503 --password-stdin
+					echo "$dockerhub_id" | docker login --username wizard503 --password-stdin
 					//sh 'docker login -u wizard503 --pasword-stdin ${dockerhub_id}'
 				}
 				script {
