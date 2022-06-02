@@ -19,7 +19,7 @@ pipeline {
 		stage('Building Image') {
 			steps {
 				withCredentials([string(credentialsId: 'dockerhub_id', variable: 'dockerhub_id')]) {
-					sh 'sudo chmod 666 /var/run/docker.sock'
+					sh 'chmod 666 /var/run/docker.sock'
 					sh 'docker login -u ${username} --password-stdin ${dockerhub_id}'
 				}
 				script {
