@@ -19,7 +19,7 @@ pipeline {
 		stage('Building Image') {
 			steps {
 				withCredentials([string(credentialsId: 'dockerhub_id', variable: 'dockerhub_id')]) {
-					sh 'docker login -u ${username} -p ${dockerhub_id}'
+					sh 'sudo docker login -u ${username} --password-stdin ${dockerhub_id}'
 				}
 				script {
 					dockerImage=docker.build registry
