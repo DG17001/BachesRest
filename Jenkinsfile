@@ -2,7 +2,6 @@ pipeline {
 	agent any
 	environment {
 		registry="wizard503/baches"
-		registryCredential='dockerhub_id'
 		dockerImage=''
 	}
 	stages {
