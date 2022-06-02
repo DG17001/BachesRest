@@ -50,6 +50,7 @@ public class EstadoResource {
     public Response findByName(@PathParam("name") String nombre){
         List<Estado> lista;
         lista=toBean.findByName(nombre);
+        lista.stream().forEach(u -> u.setNombre(u.getNombre().toUpperCase()));
         return Response.ok(lista).build();
     }
     
