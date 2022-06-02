@@ -1,8 +1,5 @@
 pipeline {
 	agent any
-	withCredentials([string(credentialsId: 'dockerhub_id', variable: 'dockerhub_id')]) {
-		sh "docker login -u wizard503 -p ${dockerhub_id}"
-	}
 	environment {
 		registry="wizard503/baches"
 		registryCredential='dockerhub_id'
@@ -21,6 +18,9 @@ pipeline {
 		}
 		stage('Building Image') {
 			steps {
+				withCredentials([string(credentialsId: 'dockerhub_id', variable: 'dockerhub_id')]) {
+					sh "docker login -u wizard503 -p ${dockerhub_id}"
+				}
 				script {
 					dockerImage=docker.build registry
 				}
