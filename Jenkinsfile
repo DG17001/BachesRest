@@ -1,6 +1,7 @@
 pipeline {
 	agent any
 	withCredentials([string(credentialsId: 'dockerhub_id', variable: 'dockerhub_id')]) {
+		sh "docker login -u wizard503 -p ${dockerhub_id}"
 	}
 	environment {
 		registry="wizard503/baches"
