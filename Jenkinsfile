@@ -24,9 +24,7 @@ pipeline {
         //}
         stage('Test') {
             steps {
-                withMaven(maven: 'Maven3') {
                 sh 'mvn -f pom.xml clean test'
-                }
             }
         }
     
