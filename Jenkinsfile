@@ -22,17 +22,17 @@ pipeline {
 					//sh 'chmod 666 /var/run/docker.sock'
 					//sh 'docker login -u ${username} --password-stdin ${dockerhub_id}'
 				//}
-				script {
+				//script {
 					//dockerImage=docker.build registry
-				}
+				//}
 			}
 		}
 		stage('Upload Image') {
 			steps{    
-				script {
+				//script {
 					//docker.withRegistry( '', registryCredential )
 					//dockerImage.push()
-				}
+				//}
 			}
 		}
 		stage('docker stop container') {
@@ -43,9 +43,9 @@ pipeline {
 		}
 		stage('Docker Run') {
 			steps{
-				script {
+				//script {
 					//dockerImage.run("-p 9090:8080 --add-host db:192.168.1.47 --rm --name bachesContainer")
-				}
+				//}
 			}
 		}
 	}
