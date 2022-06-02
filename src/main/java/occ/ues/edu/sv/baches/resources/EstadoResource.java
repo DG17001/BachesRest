@@ -39,7 +39,6 @@ public class EstadoResource {
     public Response findAll() {
         List<Estado> registros = toBean.findAll();
         Long total = toBean.contar();
-
         return Response.ok(registros)
                 .header("Total-Registro", total)
                 .build();
@@ -50,6 +49,7 @@ public class EstadoResource {
     public Response findByName(@PathParam("name") String nombre){
         List<Estado> lista;
         lista=toBean.findByName(nombre);
+        //Coloca el nombre del registro buscado en mayuscula
         lista.stream().forEach(u -> u.setNombre(u.getNombre().toUpperCase()));
         return Response.ok(lista).build();
     }
