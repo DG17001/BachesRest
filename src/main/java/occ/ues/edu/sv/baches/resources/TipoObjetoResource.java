@@ -10,12 +10,14 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import occ.ues.edu.sv.baches.control.TipoObjetoBean;
@@ -69,9 +71,9 @@ public class TipoObjetoResource {
     }
     
     @POST
-    @Path("crear/{activo}")
+    @Path("crear")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response crear(@PathParam("activo") Boolean activo) {
+    public Response crear(@QueryParam(value="activo") Boolean activo) {
         TipoObjeto nuevo=new TipoObjeto();
         nuevo.setActivo(activo);
         nuevo.setFechaCreacion(new Date());
@@ -80,9 +82,9 @@ public class TipoObjetoResource {
     }
     
     @PUT
-    @Path("modificar/{id}/{activo}")
+    @Path("modificar")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response modificar(@PathParam("id") Integer id,@PathParam("activo") boolean activo) {
+    public Response modificar(@QueryParam(value="id") Integer id,@QueryParam(value="activo") boolean activo) {
         TipoObjeto update=new TipoObjeto();
         update.setIdTipoObjeto(id);
         update.setFechaCreacion(new Date());
@@ -92,10 +94,9 @@ public class TipoObjetoResource {
         return Response.ok(update).build();
     }
     
-    @PUT
-    @Path("eliminar/{id}")
-    @Consumes({MediaType.TEXT_PLAIN})
-    public Response eliminar(@PathParam("id") Integer id){
+    @DELETE
+    @Path("eliminar")
+    public Response eliminar(@QueryParam(value="id") Integer id){
         toBean.eliminar(toBean.findById(id));
         return Response.ok().build();
     }

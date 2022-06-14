@@ -10,12 +10,14 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import occ.ues.edu.sv.baches.control.ObjetoEstadoBean;
@@ -68,9 +70,8 @@ public class ObjetoEstadoResource {
     }
     
     @POST
-    @Path("crear/{actual}")
-    @Consumes({MediaType.APPLICATION_JSON})
-    public Response crear(@PathParam("actual") Boolean actual) {
+    @Path("crear")
+    public Response crear(@QueryParam(value="actual") Boolean actual) {
         ObjetoEstado nuevo=new ObjetoEstado();
         nuevo.setActual(actual);
         nuevo.setFechaAlcanzado(new Date());
@@ -80,9 +81,9 @@ public class ObjetoEstadoResource {
     }
     
     @PUT
-    @Path("modificar/{id}/{actual}")
+    @Path("modificar")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response modificar(@PathParam("id") Long id,@PathParam("actual") boolean actual) {
+    public Response modificar(@QueryParam(value="id") Long id,@QueryParam(value="actual") boolean actual) {
         ObjetoEstado update=new ObjetoEstado();
         update.setIdObjetoEstado(id);
         update.setFechaAlcanzado(new Date());
@@ -92,10 +93,10 @@ public class ObjetoEstadoResource {
         return Response.ok(update).build();
     }
     
-    @PUT
-    @Path("eliminar/{id}")
+    @DELETE
+    @Path("eliminar")
     @Consumes({MediaType.TEXT_PLAIN})
-    public Response eliminar(@PathParam("id") Long id){
+    public Response eliminar(@QueryParam(value="id") Long id){
         toBean.eliminar(toBean.findById(id));
         return Response.ok().build();
     }

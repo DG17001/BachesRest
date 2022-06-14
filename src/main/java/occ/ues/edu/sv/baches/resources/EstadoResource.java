@@ -17,6 +17,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import occ.ues.edu.sv.baches.control.EstadoBean;
@@ -78,23 +79,23 @@ public class EstadoResource {
     }
     
     @POST   
-    @Path("crear/{nombre}")
-    @Consumes({MediaType.TEXT_PLAIN})
+    @Path("crear")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response crear(@PathParam("nombre") String nombre) {
+    public Response crear(@QueryParam(value= "nombre") String nombre,@QueryParam(value= "observacion") String observacion) {
         Estado nuevo=new Estado();
         nuevo.setIdEstado(Integer.SIZE);
         nuevo.setNombre(nombre);
         nuevo.setFechaCreacion(new Date());
+        nuevo.setObservaciones(observacion);
         toBean.crear(nuevo);
-        
+
         return Response.ok(nuevo).build();
     }
        
     @PUT
-    @Path("modificar/{id}/{nombre}")
+    @Path("modificar")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response modificar(@PathParam("id") Integer id,@PathParam("nombre") String name) {
+    public Response modificar(@QueryParam(value="id") Integer id,@QueryParam(value="nombre") String name) {
         Estado update=new Estado();
         update.setIdEstado(id);
         update.setNombre(name);
@@ -105,9 +106,8 @@ public class EstadoResource {
     }
     
     @DELETE
-    @Path("eliminar/{id}")
-    @Consumes({MediaType.TEXT_PLAIN})
-    public Response eliminar(@PathParam("id") Integer id){
+    @Path("eliminar")
+    public Response eliminar(@QueryParam(value="id") Integer id){
         toBean.eliminar(toBean.findById(id));
         return Response.ok().build();
     }

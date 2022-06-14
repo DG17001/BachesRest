@@ -16,6 +16,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import occ.ues.edu.sv.baches.control.ObjetoBean;
@@ -76,9 +77,9 @@ public class ObjetoResource {
     }
     
     @POST
-    @Path("crear/{nombre}/{latitud}/{longitud}")
+    @Path("crear")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response crear(@PathParam("nombre") String nombre,@PathParam("latitud") BigDecimal latitud,@PathParam("latitud") BigDecimal longitud) {
+    public Response crear(@QueryParam(value= "nombre") String nombre,@QueryParam(value= "latitud") BigDecimal latitud,@QueryParam(value="latitud") BigDecimal longitud) {
         Objeto nuevo=new Objeto();
         nuevo.setNombre(nombre);
         nuevo.setLatitud(latitud);
@@ -89,9 +90,9 @@ public class ObjetoResource {
     }
     
     @PUT
-    @Path("modificar/{id}/{latitud}/{longitud}/{nombre}")
+    @Path("modificar")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response modificar(@PathParam("id") Long id, @PathParam("latitud") BigDecimal latitud,@PathParam("longitud") BigDecimal longitud,@PathParam("nombre") String nombre) {
+    public Response modificar(@QueryParam(value="id") Long id, @QueryParam(value="latitud") BigDecimal latitud,@QueryParam(value="longitud") BigDecimal longitud,@QueryParam(value="nombre") String nombre) {
         Objeto update=new Objeto();
         update.setIdObjeto(id);
         update.setLatitud(latitud);
@@ -103,9 +104,8 @@ public class ObjetoResource {
     }
     
     @PUT
-    @Path("eliminar/{id}")
-    @Consumes({MediaType.TEXT_PLAIN})
-    public Response eliminar(@PathParam("id") Long id){
+    @Path("eliminar")
+    public Response eliminar(@QueryParam(value="id") Long id){
         toBean.eliminar(toBean.findById(id));
         return Response.ok().build();
     }
