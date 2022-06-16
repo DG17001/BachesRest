@@ -5,11 +5,13 @@
  */
 package occ.ues.edu.sv.baches.resources;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -28,7 +30,7 @@ import occ.ues.edu.sv.baches.entity.Objeto;
  */
 @Stateless
 @Path("objeto")
-public class ObjetoResource {
+public class ObjetoResource implements Serializable{
     
     @Inject
     ObjetoBean toBean;
@@ -79,11 +81,12 @@ public class ObjetoResource {
     @POST
     @Path("crear")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response crear(@QueryParam(value= "nombre") String nombre,@QueryParam(value= "latitud") BigDecimal latitud,@QueryParam(value="latitud") BigDecimal longitud) {
+    public Response crear(@QueryParam(value= "nombre") String nombre,@QueryParam(value= "latitud") BigDecimal latitud,@QueryParam(value="longitud") BigDecimal longitud, @QueryParam(value= "observacion") String observacion) {
         Objeto nuevo=new Objeto();
         nuevo.setNombre(nombre);
         nuevo.setLatitud(latitud);
         nuevo.setLongitud(longitud);
+        nuevo.setObservaciones(observacion);
         toBean.crear(nuevo);
         
         return Response.ok(nuevo).build();
@@ -92,20 +95,21 @@ public class ObjetoResource {
     @PUT
     @Path("modificar")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response modificar(@QueryParam(value="id") Long id, @QueryParam(value="latitud") BigDecimal latitud,@QueryParam(value="longitud") BigDecimal longitud,@QueryParam(value="nombre") String nombre) {
+    public Response modificar(@QueryParam(value="id") Long id, @QueryParam(value="nombre") String nombre,@QueryParam(value="latitud") BigDecimal latitud,@QueryParam(value="longitud") BigDecimal longitud,@QueryParam(value="observacion") String observacion) {
         Objeto update=new Objeto();
         update.setIdObjeto(id);
+        update.setNombre(nombre);
         update.setLatitud(latitud);
         update.setLongitud(longitud);
-        update.setNombre(nombre);
+        update.setObservaciones(observacion);
         toBean.modificar(update);
         
         return Response.ok(update).build();
     }
     
-    @PUT
-    @Path("eliminar")
-    public Response eliminar(@QueryParam(value="id") Long id){
+    @DELETE
+    @Path("eliminar/{id}")
+    public Response eliminar(@PathParam("id") Long id){
         toBean.eliminar(toBean.findById(id));
         return Response.ok().build();
     }

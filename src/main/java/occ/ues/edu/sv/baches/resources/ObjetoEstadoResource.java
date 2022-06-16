@@ -5,6 +5,7 @@
  */
 package occ.ues.edu.sv.baches.resources;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -29,7 +30,7 @@ import occ.ues.edu.sv.baches.entity.ObjetoEstado;
  */
 @Stateless
 @Path("objetoestado")
-public class ObjetoEstadoResource {
+public class ObjetoEstadoResource implements Serializable{
     @Inject
     ObjetoEstadoBean toBean;
    
@@ -71,10 +72,11 @@ public class ObjetoEstadoResource {
     
     @POST
     @Path("crear")
-    public Response crear(@QueryParam(value="actual") Boolean actual) {
+    public Response crear(@QueryParam(value="actual") Boolean actual,@QueryParam(value="observacion") String observacion) {
         ObjetoEstado nuevo=new ObjetoEstado();
         nuevo.setActual(actual);
         nuevo.setFechaAlcanzado(new Date());
+        nuevo.setObservaciones(observacion);
         toBean.crear(nuevo);
         
         return Response.ok(nuevo).build();
@@ -82,21 +84,20 @@ public class ObjetoEstadoResource {
     
     @PUT
     @Path("modificar")
-    @Consumes({MediaType.APPLICATION_JSON})
-    public Response modificar(@QueryParam(value="id") Long id,@QueryParam(value="actual") boolean actual) {
+    public Response modificar(@QueryParam(value="id") Long id,@QueryParam(value="actual") boolean actual, @QueryParam(value="observacion") String observacion) {
         ObjetoEstado update=new ObjetoEstado();
         update.setIdObjetoEstado(id);
         update.setFechaAlcanzado(new Date());
         update.setActual(actual);
+        update.setObservaciones(observacion);
         toBean.modificar(update);
         
         return Response.ok(update).build();
     }
     
     @DELETE
-    @Path("eliminar")
-    @Consumes({MediaType.TEXT_PLAIN})
-    public Response eliminar(@QueryParam(value="id") Long id){
+    @Path("eliminar/{id}")
+    public Response eliminar(@PathParam("id") Long id){
         toBean.eliminar(toBean.findById(id));
         return Response.ok().build();
     }

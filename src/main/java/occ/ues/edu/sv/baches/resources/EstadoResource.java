@@ -5,6 +5,7 @@
  */
 package occ.ues.edu.sv.baches.resources;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -29,7 +30,7 @@ import occ.ues.edu.sv.baches.entity.Estado;
  */
 @Stateless
 @Path("estado")
-public class EstadoResource {
+public class EstadoResource implements Serializable{
     
     @Inject
     EstadoBean toBean;
@@ -95,19 +96,20 @@ public class EstadoResource {
     @PUT
     @Path("modificar")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response modificar(@QueryParam(value="id") Integer id,@QueryParam(value="nombre") String name) {
+    public Response modificar(@QueryParam(value="id") Integer id,@QueryParam(value="nombre") String name, @QueryParam(value="observacion") String observacion) {
         Estado update=new Estado();
         update.setIdEstado(id);
         update.setNombre(name);
         update.setFechaCreacion(new Date());
+        update.setObservaciones(observacion);
         toBean.modificar(update);
         
         return Response.ok(update).build();
     }
     
     @DELETE
-    @Path("eliminar")
-    public Response eliminar(@QueryParam(value="id") Integer id){
+    @Path("eliminar/{id}")
+    public Response eliminar(@PathParam("id") Integer id){
         toBean.eliminar(toBean.findById(id));
         return Response.ok().build();
     }

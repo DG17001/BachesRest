@@ -5,6 +5,7 @@
  */
 package occ.ues.edu.sv.baches.resources;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -29,7 +30,7 @@ import occ.ues.edu.sv.baches.entity.Ruta;
  */
 @Stateless
 @Path("ruta")
-public class RutaResource {
+public class RutaResource implements Serializable{
     
     @Inject
     RutaBean toBean;
@@ -82,31 +83,31 @@ public class RutaResource {
     @POST
     @Path("crear")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response crear(@QueryParam(value="nombre") String nombre) {
+    public Response crear(@QueryParam(value="nombre") String nombre, @QueryParam(value="observacion") String observacion) {
         Ruta nuevo=new Ruta();
         nuevo.setFechaCreacion(new Date());
         nuevo.setNombre(nombre);
+        nuevo.setObservaciones(observacion);
         toBean.crear(nuevo);
         return Response.ok(nuevo).build();
     }
     
     @PUT
     @Path("modificar")
-    @Consumes({MediaType.APPLICATION_JSON})
-    public Response modificar(@QueryParam(value="id") Long id,@QueryParam(value="nombre") String nombre) {
+    public Response modificar(@QueryParam(value="id") Long id,@QueryParam(value="nombre") String nombre,@QueryParam(value="observacion") String observacion) {
         Ruta update=new Ruta();
         update.setIdRuta(id);
         update.setFechaCreacion(new Date());
         update.setNombre(nombre);
+        update.setObservaciones(observacion);
         toBean.modificar(update);
         
         return Response.ok(update).build();
     }
     
     @DELETE
-    @Path("eliminar")
-    @Consumes({MediaType.TEXT_PLAIN})
-    public Response eliminar(@QueryParam(value="id") Long id){
+    @Path("eliminar/{id}")
+    public Response eliminar(@PathParam("id") Long id){
         toBean.eliminar(toBean.findById(id));
         return Response.ok().build();
     }

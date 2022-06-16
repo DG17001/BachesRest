@@ -5,6 +5,7 @@
  */
 package occ.ues.edu.sv.baches.resources;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -29,7 +30,7 @@ import occ.ues.edu.sv.baches.entity.TipoObjeto;
  */
 @Stateless
 @Path("tipoobjeto")
-public class TipoObjetoResource {
+public class TipoObjetoResource implements Serializable{
     
     @Inject
     TipoObjetoBean toBean;
@@ -95,8 +96,8 @@ public class TipoObjetoResource {
     }
     
     @DELETE
-    @Path("eliminar")
-    public Response eliminar(@QueryParam(value="id") Integer id){
+    @Path("eliminar/{id}")
+    public Response eliminar(@PathParam("id") Integer id){
         toBean.eliminar(toBean.findById(id));
         return Response.ok().build();
     }
